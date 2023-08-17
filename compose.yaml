@@ -1,0 +1,10 @@
+services:
+  db-jwt-crud:
+    container_name: db-jwt-crud
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=db-jwt-crud'
+      - 'POSTGRES_PASSWORD=Test123'
+      - 'POSTGRES_USER=admin'
+    ports:
+      - '5432'
