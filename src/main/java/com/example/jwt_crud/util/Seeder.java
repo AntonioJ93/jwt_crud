@@ -3,9 +3,11 @@ package com.example.jwt_crud.util;
 import com.example.jwt_crud.model.entity.User;
 import com.example.jwt_crud.model.entity.UserRole;
 import com.example.jwt_crud.repository.UserRepository;
+import com.example.jwt_crud.repository.UserRoleRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +20,14 @@ import java.util.Set;
 public class Seeder implements CommandLineRunner {
 
     private final UserRepository userRepository;
-   // TODO: private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRoleRepository roleRepository;
+    private final PasswordEncoder encoder;
     @Override
     @Transactional
     public void run(String... args) throws Exception {
 
 
-        if(userRepository.count()==0){
+        if(roleRepository.count()==0){
             log.info("ejecutando seeder");
             // UserRole
             UserRole adminRole= UserRole.builder()
@@ -38,7 +41,7 @@ public class Seeder implements CommandLineRunner {
             // User
             User adminUser = User.builder()
                     .username("admin")
-                    .password("Test123")
+                    .password(encoder.encode("Test123"))
                     .name("admin")
                     .surname("user")
                     .email("admin@admin.com")
@@ -51,7 +54,7 @@ public class Seeder implements CommandLineRunner {
 
             User basicUser = User.builder()
                     .username("basic")
-                    .password("Test123")
+                    .password(encoder.encode("Test123"))
                     .name("basic")
                     .surname("user")
                     .email("user@user.com")
